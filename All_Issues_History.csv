@@ -1,0 +1,37 @@
+Issue Key,Summary,Assignee,Field,From,To,Changed At,Duration
+SCRUM-24,Test Python,Michel Katz,status,To Do,In Progress,2025-03-21T13:14:21.219+0000,0:00:08.758000
+SCRUM-24,Test Python,Michel Katz,assignee,Laurent Brichet,Michel Katz,2025-03-21T13:14:29.977+0000,0:00:02.937000
+SCRUM-24,Test Python,Michel Katz,resolution,None,Done,2025-03-21T13:14:32.914+0000,0:00:00
+SCRUM-24,Test Python,Michel Katz,status,In Progress,Done,2025-03-21T13:14:32.914+0000,0:00:00
+SCRUM-23,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.433+0000,"12 days, 8:35:00"
+SCRUM-23,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-03-12T08:24:14.433+0000,0:00:00
+SCRUM-22,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.433+0000,"10 days, 6:57:00"
+SCRUM-22,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-03-10T06:46:14.433+0000,0:00:00
+SCRUM-21,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.433+0000,"7 days, 15:37:00"
+SCRUM-21,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-03-07T15:26:14.433+0000,0:00:00
+SCRUM-20,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.432+0000,"5 days, 8:59:00"
+SCRUM-20,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-03-05T08:48:14.432+0000,0:00:00
+SCRUM-19,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.432+0000,"3 days, 20:24:00"
+SCRUM-19,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-03-03T20:13:14.432+0000,0:00:00
+SCRUM-18,"As a user, I'd like a historical story to show in reports",Laurent Brichet,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.432+0000,20:30:00
+SCRUM-18,"As a user, I'd like a historical story to show in reports",Laurent Brichet,status,To Do,Done,2025-02-28T20:19:14.432+0000,0:00:00
+SCRUM-17,"Instructions for deleting this sample board and project are in the description for this issue >> Click the ""SCRUM-17"" link and read the description tab of the detail view for more",Laurent Brichet,Sprint,None,Sample Sprint 2,2025-03-14T00:59:14.432+0000,10:44:00
+SCRUM-17,"Instructions for deleting this sample board and project are in the description for this issue >> Click the ""SCRUM-17"" link and read the description tab of the detail view for more",Laurent Brichet,status,To Do,In Progress,2025-03-14T11:43:14.432+0000,"3 days, 5:52:00"
+SCRUM-17,"Instructions for deleting this sample board and project are in the description for this issue >> Click the ""SCRUM-17"" link and read the description tab of the detail view for more",Laurent Brichet,status,In Progress,Done,2025-03-17T17:35:14.432+0000,0:00:00
+SCRUM-16,"As a team, we can finish the sprint by clicking the cog icon next to the sprint name above the ""To Do"" column then selecting ""Complete Sprint"" >> Try closing this sprint now",Unassigned,Sprint,None,Sample Sprint 1,2025-02-27T23:49:14.432+0000,"14 days, 1:10:00"
+SCRUM-16,"As a team, we can finish the sprint by clicking the cog icon next to the sprint name above the ""To Do"" column then selecting ""Complete Sprint"" >> Try closing this sprint now",Unassigned,Sprint,Sample Sprint 1,"Sample Sprint 1, Sample Sprint 2",2025-03-14T00:59:14.432+0000,4:44:00
+SCRUM-16,"As a team, we can finish the sprint by clicking the cog icon next to the sprint name above the ""To Do"" column then selecting ""Complete Sprint"" >> Try closing this sprint now",Unassigned,status,To Do,In Progress,2025-03-14T05:43:14.432+0000,"1 day, 1:48:00"
+SCRUM-16,"As a team, we can finish the sprint by clicking the cog icon next to the sprint name above the ""To Do"" column then selecting ""Complete Sprint"" >> Try closing this sprint now",Unassigned,status,In Progress,Done,2025-03-15T07:31:14.432+0000,0:00:00
+SCRUM-15,"As a scrum master, I can see the progress of a sprint via the Burndown Chart >> Click ""Reports"" to view the Burndown Chart",Unassigned,Sprint,None,Sample Sprint 2,2025-03-14T00:59:14.432+0000,"2 days, 4:44:00"
+SCRUM-15,"As a scrum master, I can see the progress of a sprint via the Burndown Chart >> Click ""Reports"" to view the Burndown Chart",Unassigned,status,To Do,In Progress,2025-03-16T05:43:14.432+0000,"2 days, 9:52:00"
+SCRUM-15,"As a scrum master, I can see the progress of a sprint via the Burndown Chart >> Click ""Reports"" to view the Burndown Chart",Unassigned,status,In Progress,Done,2025-03-18T15:35:14.432+0000,0:00:00
+SCRUM-14,"As a user, I can find important items on the board by using the customisable ""Quick Filters"" above >> Try clicking the ""Only My Issues"" Quick Filter above",Laurent Brichet,Sprint,None,Sample Sprint 2,2025-03-20T05:59:14.431+0000,0:00:00
+SCRUM-13,"As a developer, I can update details on an item using the Detail View >> Click the ""SCRUM-13"" link at the top of this card to open the detail view",Laurent Brichet,Sprint,None,Sample Sprint 2,2025-03-14T00:59:14.431+0000,0:00:00
+SCRUM-12,"When the last task is done, the story can be automatically closed >> Drag this task to ""Done"" too",Unassigned,status,To Do,In Progress,2025-03-18T10:26:14.431+0000,0:00:00
+SCRUM-11,"Update task status by dragging and dropping from column to column >> Try dragging this task to ""Done""",Laurent Brichet,status,To Do,In Progress,2025-03-17T13:01:14.431+0000,0:00:00
+SCRUM-10,"As a developer, I can update story and task status with drag and drop (click the triangle at far left of this story to show sub-tasks)",Laurent Brichet,Sprint,None,Sample Sprint 2,2025-03-14T00:59:14.430+0000,0:00:00
+SCRUM-6,"As a scrum master, I'd like to break stories down into tasks we can track during the sprint >> Try creating a task by clicking the Sub-Tasks tab in the Detail View on the right",Michel Katz,assignee,None,Laurent Brichet,2025-03-21T13:15:39.291+0000,0:00:12.034000
+SCRUM-6,"As a scrum master, I'd like to break stories down into tasks we can track during the sprint >> Try creating a task by clicking the Sub-Tasks tab in the Detail View on the right",Michel Katz,assignee,Laurent Brichet,Michel Katz,2025-03-21T13:15:51.325+0000,0:00:05.466000
+SCRUM-6,"As a scrum master, I'd like to break stories down into tasks we can track during the sprint >> Try creating a task by clicking the Sub-Tasks tab in the Detail View on the right",Michel Katz,status,To Do,In Progress,2025-03-21T13:15:56.791+0000,0:00:05.892000
+SCRUM-6,"As a scrum master, I'd like to break stories down into tasks we can track during the sprint >> Try creating a task by clicking the Sub-Tasks tab in the Detail View on the right",Michel Katz,assignee,Michel Katz,Laurent Brichet,2025-03-21T13:16:02.683+0000,0:00:05.954000
+SCRUM-6,"As a scrum master, I'd like to break stories down into tasks we can track during the sprint >> Try creating a task by clicking the Sub-Tasks tab in the Detail View on the right",Michel Katz,assignee,Laurent Brichet,Michel Katz,2025-03-21T13:16:08.637+0000,0:00:00
