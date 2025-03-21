@@ -66,14 +66,17 @@ def calculate_duration(start, end):
     duration = end_dt - start_dt
     return duration
 
-def save_to_csv(results):
+def save_to_csv(results, project_key):
     try:
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = f"All_Issues_History_{timestamp}.csv"
+        filename = f"All_Issues_History_{project_key}_{timestamp}.csv"
+        # Get the absolute path to the project root directory
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        filepath = os.path.join(project_root, filename)
         
-        with open(filename, mode='w', newline='', encoding='utf-8') as file:
+        with open(filepath, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            writer.writerow(['Issue Key', 'Summary', 'Assignee', 'Issue Type', 'Parent Issue', 'Field', 'From', 'To', 'Changed At', 'Duration'])
+            writer.writerow(['Issue Key', 'Summary', 'Assignee', 'Issue Type', 'Parent Issue', 'Created Date', 'Field', 'From', 'To', 'Changed At', 'Duration'])
             for issue_key, issue_data in results.items():
                 for change in issue_data['changes']:
                     writer.writerow([
@@ -82,6 +85,7 @@ def save_to_csv(results):
                         issue_data['assignee'],
                         issue_data['issue_type'],
                         issue_data['parent_issue'],
+                        issue_data['created'],
                         change['field'],
                         change['from'],
                         change['to'],
@@ -89,6 +93,7 @@ def save_to_csv(results):
                         change['duration']
                     ])
         print(f"CSV file '{filename}' has been created successfully.")
+        return filepath
     except Exception as e:
         print(f"Error saving CSV file: {str(e)}")
         sys.exit(1)
@@ -102,9 +107,21 @@ def main(project_key):
         assignee = issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'
         issue_type = issue.fields.issuetype.name
         parent_issue = issue.fields.parent.key if hasattr(issue.fields, 'parent') else 'None'
+        created = issue.fields.created
         changelog = get_issue_changelog(issue_key)
         
         changes = []
+        
+        # Add creation event
+        changes.append({
+            'field': 'created',
+            'from': 'None',
+            'to': issue_type,
+            'changed_at': created,
+            'duration': 'N/A'  # Duration for creation event is N/A
+        })
+        
+        # Add changelog events
         for history in changelog:
             for item in history.items:
                 from_value = item.fromString if item.fromString else 'None'
@@ -132,6 +149,7 @@ def main(project_key):
             'assignee': assignee,
             'issue_type': issue_type,
             'parent_issue': parent_issue,
+            'created': created,
             'changes': changes
         }
     
@@ -143,4 +161,4 @@ if __name__ == "__main__":
         print("Error: PROJECT_KEY environment variable is required")
         sys.exit(1)
     results = main(project_key)
-    save_to_csv(results)
+    save_to_csv(results, project_key)

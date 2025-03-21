@@ -2,8 +2,9 @@ from flask import Flask, render_template, request, jsonify, send_file
 from main import get_issues, get_issue_changelog, calculate_duration, save_to_csv
 import os
 from datetime import datetime
+import glob
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='./templates')
 
 @app.route('/')
 def index():
@@ -26,9 +27,23 @@ def fetch_issues():
             assignee = issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'
             issue_type = issue.fields.issuetype.name
             parent_issue = issue.fields.parent.key if hasattr(issue.fields, 'parent') else 'None'
+            # Get creation date from the first changelog entry
             changelog = get_issue_changelog(issue_key)
+            created = changelog[0].created if changelog else None
             
             changes = []
+            
+            # Add creation event
+            if created:
+                changes.append({
+                    'field': 'created',
+                    'from': 'None',
+                    'to': issue_type,
+                    'changed_at': created,
+                    'duration': 'N/A'  # Duration for creation event is N/A
+                })
+            
+            # Add changelog events
             for history in changelog:
                 for item in history.items:
                     from_value = item.fromString if item.fromString else 'None'
@@ -56,11 +71,12 @@ def fetch_issues():
                 'assignee': assignee,
                 'issue_type': issue_type,
                 'parent_issue': parent_issue,
+                'created': created,
                 'changes': changes
             }
 
         # Save to CSV
-        save_to_csv(results)
+        save_to_csv(results, project_key)
         
         # Prepare data for the table
         table_data = []
@@ -72,6 +88,7 @@ def fetch_issues():
                     'assignee': issue_data['assignee'],
                     'issue_type': issue_data['issue_type'],
                     'parent_issue': issue_data['parent_issue'],
+                    'created': issue_data['created'],
                     'field': change['field'],
                     'from': change['from'],
                     'to': change['to'],
@@ -91,20 +108,19 @@ def fetch_issues():
 @app.route('/download-csv')
 def download_csv():
     try:
-        # Get the most recent CSV file in the current directory
-        csv_files = [f for f in os.listdir('.') if f.startswith('All_Issues_History_') and f.endswith('.csv')]
+        # Get the absolute path to the project root directory
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Find the most recent CSV file
+        csv_files = glob.glob(os.path.join(project_root, "All_Issues_History_*.csv"))
         if not csv_files:
             return jsonify({'error': 'No CSV file found'}), 404
         
-        # Get the most recent file
         latest_file = max(csv_files, key=os.path.getctime)
-        
-        # Use send_file with the correct path
         return send_file(
             latest_file,
+            mimetype='text/csv',
             as_attachment=True,
-            download_name=latest_file,
-            mimetype='text/csv'
+            download_name=os.path.basename(latest_file)
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
