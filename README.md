@@ -1,7 +1,7 @@
-# Jira
+# Jira Data Center
 
 ## User rights
-Keep in mind that Jira container is running as `(uid:guid)` `2001:2001`. 
+Keep in mind that Jira container is running as `(uid:guid)` `2001:2001`.   
 Adapt `./data/shared` folder rights accordingly
 
 ## Compose options
