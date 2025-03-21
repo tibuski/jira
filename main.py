@@ -3,28 +3,62 @@ import csv
 from jira import JIRA
 from dotenv import load_dotenv
 from datetime import datetime
+import sys
 
 # Load environment variables
 load_dotenv()
+
+def validate_environment():
+    required_vars = ['JIRA_URL', 'JIRA_USERNAME', 'JIRA_PERSONAL_ACCESS_TOKEN', 'PROJECT_KEY']
+    missing_vars = [var for var in required_vars if not os.getenv(var)]
+    if missing_vars:
+        print(f"Error: Missing required environment variables: {', '.join(missing_vars)}")
+        sys.exit(1)
+
+# Validate environment variables before proceeding
+validate_environment()
 
 JIRA_URL = os.getenv('JIRA_URL')
 JIRA_USERNAME = os.getenv('JIRA_USERNAME')
 JIRA_PERSONAL_ACCESS_TOKEN = os.getenv('JIRA_PERSONAL_ACCESS_TOKEN')
 PROJECT_KEY = os.getenv('PROJECT_KEY')
 
-# Connect to Jira using personal access token
-jira = JIRA(JIRA_URL, token_auth=JIRA_PERSONAL_ACCESS_TOKEN)
+try:
+    # Connect to Jira using personal access token
+    jira = JIRA(JIRA_URL, token_auth=JIRA_PERSONAL_ACCESS_TOKEN)
+except Exception as e:
+    print(f"Error connecting to JIRA: {str(e)}")
+    sys.exit(1)
 
-def get_issues():
-    jql = f'project={PROJECT_KEY}'
-    issues = jira.search_issues(jql, fields='key,summary,assignee,status')
-    print(f"Fetched {len(issues)} issues")
-    return issues
+def get_issues(project_key):
+    try:
+        jql = f'project={project_key}'
+        start_at = 0
+        max_results = 100
+        all_issues = []
+        
+        while True:
+            issues = jira.search_issues(jql, startAt=start_at, maxResults=max_results, 
+                                     fields='key,summary,assignee,status,issuetype,subtasks')
+            all_issues.extend(issues)
+            
+            if len(issues) < max_results:
+                break
+                
+            start_at += max_results
+            
+        return all_issues
+    except Exception as e:
+        print(f"Error fetching issues: {str(e)}")
+        return []
 
 def get_issue_changelog(issue_key):
-    issue = jira.issue(issue_key, expand='changelog')
-    print(f"Fetched changelog for issue {issue_key}")
-    return issue.changelog.histories
+    try:
+        issue = jira.issue(issue_key, expand='changelog')
+        return issue.changelog.histories
+    except Exception as e:
+        print(f"Error fetching changelog for issue {issue_key}: {str(e)}")
+        return []
 
 def calculate_duration(start, end):
     start_dt = datetime.strptime(start, '%Y-%m-%dT%H:%M:%S.%f%z')
@@ -33,31 +67,41 @@ def calculate_duration(start, end):
     return duration
 
 def save_to_csv(results):
-    filename = "All_Issues_History.csv"
-    with open(filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Issue Key', 'Summary', 'Assignee', 'Field', 'From', 'To', 'Changed At', 'Duration'])
-        for issue_key, issue_data in results.items():
-            for change in issue_data['changes']:
-                writer.writerow([
-                    issue_key,
-                    issue_data['summary'],
-                    issue_data['assignee'],
-                    change['field'],
-                    change['from'],
-                    change['to'],
-                    change['changed_at'],
-                    change['duration']
-                ])
-    print("CSV file has been created successfully.")
+    try:
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"All_Issues_History_{timestamp}.csv"
+        
+        with open(filename, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['Issue Key', 'Summary', 'Assignee', 'Issue Type', 'Parent Issue', 'Field', 'From', 'To', 'Changed At', 'Duration'])
+            for issue_key, issue_data in results.items():
+                for change in issue_data['changes']:
+                    writer.writerow([
+                        issue_key,
+                        issue_data['summary'],
+                        issue_data['assignee'],
+                        issue_data['issue_type'],
+                        issue_data['parent_issue'],
+                        change['field'],
+                        change['from'],
+                        change['to'],
+                        change['changed_at'],
+                        change['duration']
+                    ])
+        print(f"CSV file '{filename}' has been created successfully.")
+    except Exception as e:
+        print(f"Error saving CSV file: {str(e)}")
+        sys.exit(1)
 
-def main():
+def main(project_key):
     results = {}
-    issues = get_issues()
+    issues = get_issues(project_key)
     for issue in issues:
         issue_key = issue.key
         summary = issue.fields.summary
         assignee = issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'
+        issue_type = issue.fields.issuetype.name
+        parent_issue = issue.fields.parent.key if hasattr(issue.fields, 'parent') else 'None'
         changelog = get_issue_changelog(issue_key)
         
         changes = []
@@ -86,12 +130,17 @@ def main():
         results[issue_key] = {
             'summary': summary,
             'assignee': assignee,
+            'issue_type': issue_type,
+            'parent_issue': parent_issue,
             'changes': changes
         }
-        print(f"Processed issue {issue_key}")
     
     return results
 
 if __name__ == "__main__":
-    results = main()
+    project_key = os.getenv('PROJECT_KEY')
+    if not project_key:
+        print("Error: PROJECT_KEY environment variable is required")
+        sys.exit(1)
+    results = main(project_key)
     save_to_csv(results)
