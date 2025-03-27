@@ -39,7 +39,7 @@ def get_issues(project_key):
         
         while True:
             issues = jira.search_issues(jql, startAt=start_at, maxResults=max_results, 
-                                     fields='key,summary,assignee,status,issuetype,subtasks')
+                                     fields='key,created,summary,assignee,status,issuetype,subtasks')
             all_issues.extend(issues)
             
             if len(issues) < max_results:
@@ -102,6 +102,7 @@ def main(project_key):
     results = {}
     issues = get_issues(project_key)
     for issue in issues:
+        print(issue.key)
         issue_key = issue.key
         summary = issue.fields.summary
         assignee = issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'
