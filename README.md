@@ -12,8 +12,9 @@ Adapt `./data/shared` folder rights accordingly.
 * `JIRA_NODE_ID` keeps clustering table clean.
 
 ### Starting the containers
-1. Edit the `x-anchors` in docker compose to adapt to your needs
-2. Run the following command to start the containers:
+1. Rename docker-compose.yml.example to docker-compose.yml
+2. Edit the `x-anchors` in docker compose-compose.yml to adapt to your needs.
+3. Run the following command to start the containers:
    ```bash
    docker compose up -d && docker compose logs -f
    ```
