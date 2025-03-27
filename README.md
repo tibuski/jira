@@ -22,7 +22,7 @@ Adapt `./data/shared` folder rights accordingly.
 ## Python
 
 * Copy .env.example to .env and adapt variables :
-  ```sh
+  ```bash
   JIRA_URL=https://jira.mydomain.com
   JIRA_USERNAME=MyUser
   JIRA_PERSONAL_ACCESS_TOKEN=my_very_long_token_GeneratedInJiraUserProfile
@@ -30,7 +30,7 @@ Adapt `./data/shared` folder rights accordingly.
   ```
 
 * Install python requirements :
-  ```sh
+  ```bash
   python -m pip install -r requirements.txt
   ```
 
