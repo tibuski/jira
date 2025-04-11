@@ -1,3 +1,6 @@
 .env
 .csv
+.yml
+__pycache__/
 data/
+
