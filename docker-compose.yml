@@ -10,6 +10,8 @@ x-environment: &environment
     ATL_UNSET_SENSITIVE_ENV_VARS: false
     ATL_PROXY_NAME: jira.brichet.be
     ATL_PROXY_PORT: 443
+    ATL_TOMCAT_SCHEME: https
+    ATL_TOMCAT_SECURE: true
     ATL_JDBC_URL: jdbc:postgresql://postgres:5432/jira
     ATL_JDBC_USER: admin
     ATL_JDBC_PASSWORD: admin
@@ -17,6 +19,7 @@ x-environment: &environment
     ATL_DB_TYPE: postgres72
     JVM_MINIMUM_MEMORY: 2048m
     JVM_MAXIMUM_MEMORY: 4096m
+    JVM_SUPPORT_RECOMMENDED_ARGS: -Dapplinks.allow.all.hosts=true
     JIRA_SHARED_HOME: /var/atlassian/application-data/jira/shared
     CLUSTERED: true
 
@@ -42,31 +45,32 @@ services:
       JIRA_NODE_ID: node1
     <<: [*volumes, *image, *labels] 
 
-  jira2:
-    container_name: jira2
-    ports:
-      - 8081:8080
-    environment:
-      <<: *environment
-      JIRA_NODE_ID: node2
-    <<: [*volumes, *image, *labels] 
- 
-  jira3:
-    container_name: jira3
-    ports:
-      - 8082:8080
-    environment:
-      <<: *environment
-      JIRA_NODE_ID: node3
-    <<: [*volumes, *image, *labels] 
+#  jira2:
+#    container_name: jira2
+#    ports:
+#      - 8081:8080
+#    environment:
+#      <<: *environment
+#      JIRA_NODE_ID: node2
+#    <<: [*volumes, *image, *labels] 
+# 
+#  jira3:
+#    container_name: jira3
+#    ports:
+#      - 8082:8080
+#    environment:
+#      <<: *environment
+#      JIRA_NODE_ID: node3
+#    <<: [*volumes, *image, *labels] 
 
   postgres:
     container_name: postgres
-    image: postgres
+    image: postgres:15
     hostname: postgres 
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_INITDB_ARGS: --lc-collate=C.UTF-8
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin 
       POSTGRES_DB: jira
